@@ -15,7 +15,7 @@ import {
   UserCheck,
   Briefcase,
   HelpCircle,
-  AlertTriangle
+  User
 } from 'lucide-react';
 import { marketplaceStore } from '../services/store';
 import { UserRole } from '../types';
@@ -65,10 +65,10 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
       <div className="bg-slate-900 text-slate-200 text-xs py-1.5 px-4 sm:px-8 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span className="font-medium text-slate-300">STHANIQ Marketplace Live Demo Mode</span>
+          <span className="font-medium text-slate-300">STHANIQ — Verified Locals. Fair Prices. Better Journeys.</span>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-slate-400 hidden sm:inline">Active User Context:</span>
+          <span className="text-slate-400 hidden sm:inline">Role Context:</span>
           <div className="relative">
             <button
               onClick={() => setShowRoleDropdown(!showRoleDropdown)}
@@ -138,22 +138,22 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
               <span className="text-xl font-extrabold tracking-tight text-slate-900 font-sans">
                 STHANIQ<span className="text-brand-500">.</span>
               </span>
-              <span className="hidden md:block text-[10px] uppercase font-bold text-slate-500 tracking-wider">
+              <span className="hidden md:block text-[10px] uppercase font-extrabold text-slate-500 tracking-wider">
                 Verified Locals • Fair Prices
               </span>
             </div>
           </Link>
 
-          {/* Desktop Nav Links */}
+          {/* Desktop Nav Links (Restructured Information Architecture) */}
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
             <Link
               to="/guides"
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1.5 ${
-                isActive('/guides') ? 'bg-amber-50 text-brand-600 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+              className={`px-3 py-2 rounded-lg text-sm font-bold transition flex items-center gap-1.5 ${
+                isActive('/guides') ? 'bg-amber-50 text-brand-700 font-extrabold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
-              <Users className="w-4 h-4 text-brand-500" />
-              <span>Find Local Guides</span>
+              <Users className="w-4 h-4 text-brand-600" />
+              <span>Find a Guide</span>
             </Link>
 
             <Link
@@ -173,7 +173,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
               }`}
             >
               <Tag className="w-4 h-4 text-indigo-600" />
-              <span>Fair Prices</span>
+              <span>Fair Price</span>
             </Link>
 
             <Link
@@ -182,51 +182,29 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
                 isActive('/ai-planner') ? 'bg-amber-50 text-brand-600 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
-              <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
-              <span>AI Trip Planner</span>
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <span>AI Planner</span>
             </Link>
 
             <Link
-              to="/ask-local"
+              to="/become-guide"
               className={`px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1.5 ${
-                isActive('/ask-local') ? 'bg-amber-50 text-brand-600 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+                isActive('/become-guide') ? 'bg-emerald-50 text-emerald-700 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
               }`}
             >
-              <HelpCircle className="w-4 h-4 text-sky-600" />
-              <span>Ask a Local</span>
+              <UserCheck className="w-4 h-4 text-emerald-600" />
+              <span>Become a Guide</span>
             </Link>
 
-            {storeState.activeRole === 'TOURIST' && (
-              <Link
-                to="/my-trips"
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1.5 ${
-                  isActive('/my-trips') ? 'bg-amber-50 text-brand-600 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
-                }`}
-              >
-                <Briefcase className="w-4 h-4 text-slate-600" />
-                <span>My Trips</span>
-              </Link>
-            )}
-
-            {storeState.activeRole === 'GUIDE' && (
-              <Link
-                to="/guide-dashboard"
-                className={`px-3 py-2 rounded-lg text-sm font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition flex items-center gap-1.5 border border-emerald-200`}
-              >
-                <UserCheck className="w-4 h-4 text-emerald-600" />
-                <span>Guide Dashboard</span>
-              </Link>
-            )}
-
-            {storeState.activeRole === 'ADMIN' && (
-              <Link
-                to="/admin-panel"
-                className={`px-3 py-2 rounded-lg text-sm font-semibold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 transition flex items-center gap-1.5 border border-indigo-200`}
-              >
-                <ShieldCheck className="w-4 h-4 text-indigo-600" />
-                <span>Admin Panel</span>
-              </Link>
-            )}
+            <Link
+              to="/my-trips"
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1.5 ${
+                isActive('/my-trips') ? 'bg-amber-50 text-brand-600 font-semibold' : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
+              }`}
+            >
+              <Briefcase className="w-4 h-4 text-slate-600" />
+              <span>Trips</span>
+            </Link>
           </nav>
 
           {/* Right Action Buttons */}
@@ -269,22 +247,14 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
               )}
             </div>
 
-            {/* Request a Guide CTA */}
+            {/* Primary Action Button */}
             <button
               onClick={onRequestOpen}
-              className="bg-gradient-to-r from-brand-600 to-amber-500 hover:from-brand-700 hover:to-amber-600 text-white px-4 py-2 rounded-xl font-semibold text-sm shadow-md shadow-amber-500/20 hover:shadow-lg hover:shadow-amber-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-1.5"
+              className="bg-gradient-to-r from-brand-600 to-amber-500 hover:from-brand-700 hover:to-amber-600 text-white px-4 py-2 rounded-xl font-extrabold text-sm shadow-md shadow-amber-500/20 hover:shadow-lg transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-1.5"
             >
               <Users className="w-4 h-4" />
-              <span>Post Guide Request</span>
+              <span>Find a Guide</span>
             </button>
-
-            {/* Become a Guide Link */}
-            <Link
-              to="/become-guide"
-              className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3 py-2 rounded-xl border border-emerald-200 transition"
-            >
-              Earn as Guide
-            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -305,9 +275,9 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
           <Link
             to="/guides"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-800 hover:bg-amber-50"
+            className="block px-3 py-2.5 rounded-lg text-sm font-extrabold text-slate-800 hover:bg-amber-50"
           >
-            Find Local Guides
+            Find a Guide
           </Link>
           <Link
             to="/tours"
@@ -321,21 +291,28 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-800 hover:bg-amber-50"
           >
-            Fair Price Insights
+            Fair Price
           </Link>
           <Link
             to="/ai-planner"
             onClick={() => setMobileMenuOpen(false)}
-            className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-amber-600 hover:bg-amber-50"
+            className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-800 hover:bg-amber-50"
           >
-            AI Trip Planner
+            AI Planner
           </Link>
           <Link
-            to="/ask-local"
+            to="/become-guide"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-emerald-700 hover:bg-emerald-50"
+          >
+            Become a Guide
+          </Link>
+          <Link
+            to="/my-trips"
             onClick={() => setMobileMenuOpen(false)}
             className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-800 hover:bg-amber-50"
           >
-            Ask a Local
+            Trips
           </Link>
 
           <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
@@ -344,17 +321,10 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
                 setMobileMenuOpen(false);
                 onRequestOpen();
               }}
-              className="w-full bg-brand-500 text-white font-semibold py-2.5 rounded-xl text-sm"
+              className="w-full bg-brand-500 text-white font-extrabold py-2.5 rounded-xl text-sm"
             >
-              Post Guide Request
+              Find a Guide
             </button>
-            <Link
-              to="/become-guide"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-center w-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold py-2.5 rounded-xl text-sm"
-            >
-              Become a Guide
-            </Link>
           </div>
         </div>
       )}

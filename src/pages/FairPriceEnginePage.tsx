@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Tag, ShieldCheck, Search, Info, MapPin, CheckCircle2, TrendingUp, AlertCircle } from 'lucide-react';
+import { Tag, ShieldCheck, Search, Info, MapPin, CheckCircle2, TrendingUp, AlertCircle, Users } from 'lucide-react';
 import { marketplaceStore } from '../services/store';
 import { getFairPriceEstimates, FairPriceEstimate } from '../services/fairPriceService';
+import { InteractivePriceChecker } from '../components/InteractivePriceChecker';
 
 export const FairPriceEnginePage: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState('Jaipur');
@@ -18,23 +19,43 @@ export const FairPriceEnginePage: React.FC = () => {
     : estimates.filter(e => e.category === categoryFilter);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
       {/* Header Banner */}
       <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-amber-950 rounded-3xl p-8 sm:p-10 text-white shadow-xl space-y-3 border border-slate-800">
         <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-extrabold">
-          <Tag className="w-4 h-4 text-amber-400" /> Transparent Pricing Module
+          <Tag className="w-4 h-4 text-amber-400" /> Transparent Pricing Hero Feature
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold">STHANIQ Fair Price Engine</h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold">Know what a reasonable local price looks like before you pay.</h1>
         <p className="text-slate-300 text-xs sm:text-sm max-w-2xl leading-relaxed">
-          Helping tourists understand fair pricing standards for local autos, heritage guides, and street food. Sourced from prepaid tariffs, verified marketplace data, and local transport rules.
+          STHANIQ compares prepaid auto tariffs, verified guide standards, and ticket prices to display clear estimated fair ranges. Protect yourself from inflated tourist rates.
+        </p>
+      </div>
+
+      {/* Interactive Price Checker Tool */}
+      <InteractivePriceChecker />
+
+      {/* Guide Fair Price Comparison Section (Requirement #13) */}
+      <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-card space-y-4">
+        <div className="flex items-center gap-2">
+          <Users className="w-6 h-6 text-brand-600" />
+          <h3 className="text-xl font-extrabold text-slate-900">Fair Price for Certified Local Guides</h3>
+        </div>
+        <p className="text-xs text-slate-600">
+          Compare union estimated standards against real verified guide bids on STHANIQ.
         </p>
 
-        {/* Disclaimer Warning */}
-        <div className="bg-slate-800/90 border border-amber-500/30 p-3.5 rounded-2xl flex items-start gap-2 text-xs text-amber-300">
-          <AlertCircle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-          <span>
-            <strong>Important Rule:</strong> All benchmarks shown below are clearly labeled as <em>Estimated Fair Ranges</em> based on actual platform listings and union prepaid tariffs. They are intended as fair pricing guides to prevent price gouging.
-          </span>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div className="bg-amber-50/70 p-5 rounded-2xl border border-amber-200 space-y-2">
+            <span className="text-[10px] font-extrabold text-amber-800 uppercase tracking-wider block">Jaipur Heritage Guide Standard</span>
+            <span className="text-slate-700 text-xs font-semibold block">Typical Union Estimated Range:</span>
+            <div className="text-2xl font-extrabold text-slate-900">₹2,000 – ₹3,000 / Day</div>
+          </div>
+
+          <div className="bg-emerald-50/70 p-5 rounded-2xl border border-emerald-200 space-y-2">
+            <span className="text-[10px] font-extrabold text-emerald-800 uppercase tracking-wider block">STHANIQ Verified Host Offers</span>
+            <span className="text-slate-700 text-xs font-semibold block">Real Competitive Marketplace Bids:</span>
+            <div className="text-2xl font-extrabold text-emerald-700">₹2,500 – ₹2,800 / Day</div>
+          </div>
         </div>
       </div>
 

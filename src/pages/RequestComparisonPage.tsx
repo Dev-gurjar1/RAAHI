@@ -10,7 +10,8 @@ import {
   ArrowRight,
   Clock,
   MapPin,
-  Tag
+  Tag,
+  Check
 } from 'lucide-react';
 import { marketplaceStore } from '../services/store';
 import { GuideRequest, TourOffer, Booking } from '../types';
@@ -95,7 +96,80 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
         </div>
       </div>
 
-      {/* Offers Comparison Matrix */}
+      {/* Offer Comparison Matrix Table (Requirement #11) */}
+      {offers.length > 0 && (
+        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-card space-y-4 overflow-x-auto">
+          <h3 className="font-extrabold text-slate-900 text-lg">Side-by-Side Comparison Matrix</h3>
+          <table className="w-full text-xs text-left border-collapse min-w-[600px]">
+            <thead>
+              <tr className="border-b border-slate-200 text-slate-400 uppercase text-[10px]">
+                <th className="py-3 px-2 font-bold">Feature</th>
+                {offers.map(o => (
+                  <th key={o.id} className="py-3 px-4 font-bold text-slate-900 text-sm">
+                    {o.guideName}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
+              <tr>
+                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Offered Price</td>
+                {offers.map(o => (
+                  <td key={o.id} className="py-3 px-4 font-extrabold text-slate-900 text-sm">
+                    ₹{o.price.toLocaleString('en-IN')}
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Rating</td>
+                {offers.map(o => (
+                  <td key={o.id} className="py-3 px-4 text-amber-600 font-bold">
+                    ⭐ {o.guideRating}
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Experience</td>
+                {offers.map(o => (
+                  <td key={o.id} className="py-3 px-4">{o.guideExperience} yrs</td>
+                ))}
+              </tr>
+              <tr>
+                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Duration</td>
+                {offers.map(o => (
+                  <td key={o.id} className="py-3 px-4">{o.durationHours} hrs</td>
+                ))}
+              </tr>
+              <tr>
+                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Heritage Access</td>
+                {offers.map(o => (
+                  <td key={o.id} className="py-3 px-4 text-emerald-600 font-bold">
+                    <Check className="w-4 h-4 text-emerald-600" />
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Food Tasting</td>
+                {offers.map(o => (
+                  <td key={o.id} className="py-3 px-4 text-emerald-600 font-bold">
+                    {o.includedServices.some(s => s.toLowerCase().includes('food')) ? <Check className="w-4 h-4 text-emerald-600" /> : '—'}
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Verified Identity</td>
+                {offers.map(o => (
+                  <td key={o.id} className="py-3 px-4 text-emerald-600 font-bold">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600 inline" /> Verified
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Offers Cards Grid */}
       {offers.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-3">
           <Clock className="w-10 h-10 text-amber-500 mx-auto animate-spin" />
@@ -133,7 +207,6 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
               )}
 
               <div className="space-y-4 pt-2">
-                {/* Guide Header */}
                 <div className="flex items-center gap-3">
                   <img src={offer.guideAvatar} alt={offer.guideName} className="w-14 h-14 rounded-2xl object-cover border-2 border-emerald-500/20" />
                   <div>
@@ -149,7 +222,6 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
                   </div>
                 </div>
 
-                {/* Offer Price */}
                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1 text-center">
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Offered Tour Price</span>
                   <div className="text-3xl font-extrabold text-slate-900">
@@ -158,7 +230,6 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
                   <span className="text-[11px] text-slate-500">For {offer.durationHours} hours total</span>
                 </div>
 
-                {/* Pitch */}
                 <div className="space-y-1">
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Guide Note</span>
                   <p className="text-xs text-slate-700 italic bg-amber-50/60 p-3 rounded-xl border border-amber-200/50">
@@ -166,7 +237,6 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
                   </p>
                 </div>
 
-                {/* Included Services */}
                 <div className="space-y-2">
                   <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Included Services</span>
                   <ul className="space-y-1.5 text-xs text-slate-700">
@@ -178,24 +248,8 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
                     ))}
                   </ul>
                 </div>
-
-                {/* Excluded Services */}
-                {offer.excludedServices.length > 0 && (
-                  <div className="space-y-1.5">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Exclusions</span>
-                    <ul className="space-y-1 text-xs text-slate-500">
-                      {offer.excludedServices.map((exc, idx) => (
-                        <li key={idx} className="flex items-start gap-1.5">
-                          <XCircle className="w-3.5 h-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
-                          <span>{exc}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
               </div>
 
-              {/* Accept Offer Action Button */}
               <button
                 onClick={() => handleAccept(offer.id)}
                 className={`w-full font-extrabold py-3.5 rounded-2xl text-sm shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 ${

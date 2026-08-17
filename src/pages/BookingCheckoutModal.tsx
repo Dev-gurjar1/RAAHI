@@ -34,6 +34,8 @@ export const BookingCheckoutModal: React.FC<BookingCheckoutModalProps> = ({
 
   const itemTitle = tour ? tour.title : guide ? `${guide.name} — Verified Private Guide` : initialBooking?.title || 'Tour Booking';
   const price = tour ? tour.pricePerPerson * travelersCount : guide ? guide.startingPrice : initialBooking?.totalPrice || 2500;
+  const platformFee = Math.round(price * 0.1);
+  const totalPrice = price + platformFee;
   const meetingPoint = tour ? tour.meetingPoint : 'Hawa Mahal Main Gate / Agreed Location';
   const destination = tour ? tour.destination : guide ? guide.serviceAreas[0] : initialBooking?.destination || 'Jaipur';
 
@@ -49,9 +51,9 @@ export const BookingCheckoutModal: React.FC<BookingCheckoutModalProps> = ({
         b = marketplaceStore.bookTourDirect(tour.id, date, '09:00 AM', travelersCount);
       } else if (guide) {
         const commPct = marketplaceStore.getState().platformCommissionPercent / 100;
-        const platformFee = Math.round(price * commPct);
+        const fee = Math.round(price * commPct);
         b = {
-          id: `STH-${Math.floor(10000 + Math.random() * 90000)}`,
+          id: `STH-2026-${Math.floor(1000 + Math.random() * 9000)}`,
           touristId: 'user-tourist-demo',
           touristName: 'Aarav Patel',
           guideId: guide.id,
@@ -62,9 +64,9 @@ export const BookingCheckoutModal: React.FC<BookingCheckoutModalProps> = ({
           date,
           time: '09:00 AM',
           travelersCount,
-          totalPrice: price,
-          platformFee,
-          guideEarnings: price - platformFee,
+          totalPrice,
+          platformFee: fee,
+          guideEarnings: price,
           paymentStatus: 'PAID',
           bookingStatus: 'UPCOMING',
           meetingPoint,
@@ -77,7 +79,7 @@ export const BookingCheckoutModal: React.FC<BookingCheckoutModalProps> = ({
 
       setIsProcessing(false);
       setConfirmedBooking(b);
-    }, 1500);
+    }, 1200);
   };
 
   return (
@@ -102,7 +104,7 @@ export const BookingCheckoutModal: React.FC<BookingCheckoutModalProps> = ({
                 Payment Received & Booking Confirmed
               </span>
               <h2 className="text-2xl font-extrabold text-slate-900 pt-2">You're All Set for {confirmedBooking.destination}!</h2>
-              <p className="text-xs text-slate-500 font-mono">Booking ID: {confirmedBooking.id}</p>
+              <p className="text-xs font-mono font-bold text-slate-600">Booking ID: {confirmedBooking.id}</p>
             </div>
 
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-left text-xs space-y-2">
@@ -140,20 +142,27 @@ export const BookingCheckoutModal: React.FC<BookingCheckoutModalProps> = ({
               <h2 className="text-2xl font-extrabold text-slate-900">Review & Confirm Booking</h2>
             </div>
 
-            {/* Item Summary */}
+            {/* Item Summary & Transparent Fee Breakdown (Requirement #26) */}
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-xs space-y-2">
               <h4 className="font-bold text-slate-900 text-sm">{itemTitle}</h4>
               <div className="flex justify-between text-slate-600">
                 <span>Date: {date}</span>
                 <span>Travelers: {travelersCount} Pax</span>
               </div>
-              <div className="flex justify-between text-slate-600">
-                <span>Meeting Point:</span>
-                <span className="font-semibold text-slate-800">{meetingPoint}</span>
-              </div>
-              <div className="pt-2 border-t border-slate-200 flex justify-between font-extrabold text-sm text-slate-900">
-                <span>Total Amount:</span>
-                <span className="text-emerald-700">₹{price.toLocaleString('en-IN')}</span>
+
+              <div className="pt-2 border-t border-slate-200 space-y-1">
+                <div className="flex justify-between text-slate-600">
+                  <span>Tour / Guide Fee:</span>
+                  <span>₹{price.toLocaleString('en-IN')}</span>
+                </div>
+                <div className="flex justify-between text-slate-600">
+                  <span>STHANIQ Protection Fee (10%):</span>
+                  <span>₹{platformFee.toLocaleString('en-IN')}</span>
+                </div>
+                <div className="pt-1.5 border-t border-slate-200 flex justify-between font-extrabold text-sm text-slate-900">
+                  <span>Total Amount:</span>
+                  <span className="text-emerald-700">₹{totalPrice.toLocaleString('en-IN')}</span>
+                </div>
               </div>
             </div>
 
@@ -219,7 +228,7 @@ export const BookingCheckoutModal: React.FC<BookingCheckoutModalProps> = ({
                 ) : (
                   <>
                     <ShieldCheck className="w-4 h-4" />
-                    <span>Pay ₹{price.toLocaleString('en-IN')} & Confirm Booking</span>
+                    <span>Pay ₹{totalPrice.toLocaleString('en-IN')} & Confirm Booking</span>
                   </>
                 )}
               </button>
