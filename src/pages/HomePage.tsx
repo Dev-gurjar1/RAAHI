@@ -23,6 +23,7 @@ import { marketplaceStore } from '../services/store';
 import { getFairPriceEstimates } from '../services/fairPriceService';
 import { InteractivePriceChecker } from '../components/InteractivePriceChecker';
 import { VerificationModal } from '../components/VerificationModal';
+import { SearchAutocomplete } from '../components/SearchAutocomplete';
 import { GuideProfile } from '../types';
 
 interface HomePageProps {
@@ -30,7 +31,6 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedGuideForVerification, setSelectedGuideForVerification] = useState<GuideProfile | null>(null);
 
   const navigate = useNavigate();
@@ -41,18 +41,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
   const featuredTours = state.tours.slice(0, 3);
   const sampleOffers = state.offers.slice(0, 3);
 
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/guides?destination=${encodeURIComponent(searchQuery)}`);
-    } else {
-      navigate(`/guides?destination=Jaipur`);
-    }
-  };
-
   return (
     <div className="space-y-20 pb-20">
-      {/* 1. HERO SECTION (Requirement #5 & #36) */}
+      {/* 1. HERO SECTION (Requirement #3, #5, #6, #36) */}
       <section className="relative pt-12 pb-20 px-4 sm:px-6 lg:px-8 hero-gradient overflow-hidden">
         <div className="max-w-7xl mx-auto text-center space-y-8 relative z-10">
 
@@ -66,39 +57,13 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
 
           {/* Supporting Text */}
           <p className="max-w-2xl mx-auto text-base sm:text-lg font-medium text-slate-600 leading-relaxed">
-            Connect with verified local guides, compare real offers, and explore cities without worrying about hidden or inflated prices.
+            Connect with verified local guides, compare real offers, and explore cities without worrying about inflated prices.
           </p>
 
-          {/* Primary Search Bar */}
-          <form
-            onSubmit={handleSearchSubmit}
-            className="max-w-3xl mx-auto bg-white p-3 sm:p-4 rounded-3xl shadow-2xl border-2 border-amber-500/40 flex flex-col sm:flex-row items-center gap-3 transition-all focus-within:ring-4 focus-within:ring-amber-500/20"
-          >
-            <div className="flex-1 flex items-center gap-3 px-3 w-full">
-              <MapPin className="w-6 h-6 text-brand-500 flex-shrink-0" />
-              <div className="w-full text-left">
-                <label htmlFor="home-search-input" className="block text-[11px] font-extrabold text-slate-500 uppercase tracking-wider">
-                  Where are you going?
-                </label>
-                <input
-                  id="home-search-input"
-                  type="text"
-                  placeholder="e.g. Jaipur"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-transparent text-slate-900 font-extrabold text-lg focus:outline-none placeholder:text-slate-400 placeholder:font-normal"
-                />
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              className="w-full sm:w-auto bg-gradient-to-r from-brand-600 to-amber-500 hover:from-brand-700 hover:to-amber-600 text-white font-extrabold px-9 py-4 rounded-2xl shadow-xl shadow-amber-500/30 transition transform active:scale-95 flex items-center justify-center gap-2 text-base whitespace-nowrap"
-            >
-              <Search className="w-5 h-5 stroke-[2.5]" />
-              <span>Find Guides</span>
-            </button>
-          </form>
+          {/* Search Autocomplete Input */}
+          <div className="max-w-3xl mx-auto">
+            <SearchAutocomplete placeholder="e.g. Jaipur" />
+          </div>
 
           {/* Trust Microcopy Row */}
           <div className="flex items-center justify-center gap-4 sm:gap-8 text-xs sm:text-sm font-bold text-slate-700 pt-1">
@@ -136,7 +101,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
         </div>
       </section>
 
-      {/* 2. HOW STHANIQ WORKS (Requirement #7 & #36) */}
+      {/* 2. HOW STHANIQ WORKS (Requirement #8 & #36) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-2">
           <span className="text-xs font-extrabold text-brand-600 uppercase tracking-wider bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
@@ -184,7 +149,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
         </div>
       </section>
 
-      {/* 3. VERIFIED GUIDES MARKETPLACE ("Meet Your Local") (Requirement #8, #9, #36) */}
+      {/* 3. VERIFIED GUIDES MARKETPLACE ("Meet Your Local") (Requirement #9, #33, #36) */}
       <section className="bg-slate-900 text-white py-16 px-4 sm:px-6 lg:px-8 border-y border-slate-800">
         <div className="max-w-7xl mx-auto space-y-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
@@ -232,7 +197,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
                         {guide.name}
                       </h3>
 
-                      {/* Interactive Verification Badge Trigger (Requirement #21) */}
+                      {/* Interactive Verification Badge Trigger (Requirement #33) */}
                       <button
                         onClick={() => setSelectedGuideForVerification(guide)}
                         className="text-[10px] font-bold text-emerald-400 hover:text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md inline-flex items-center gap-1 mt-0.5"
@@ -284,7 +249,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
         </div>
       </section>
 
-      {/* 4. GUIDE REQUEST + OFFER MARKETPLACE DEMO (Requirement #10 & #36) */}
+      {/* 4. GUIDE REQUEST + OFFER MARKETPLACE DEMO (Requirement #11, #12, #36) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="text-center space-y-2">
           <span className="text-xs font-extrabold text-amber-600 uppercase tracking-wider bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
@@ -344,12 +309,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
         </div>
       </section>
 
-      {/* 5. FAIR PRICE HERO FEATURE (Requirement #12, #15 & #36) */}
+      {/* 5. FAIR PRICE HERO FEATURE (Requirement #15, #19 & #36) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <InteractivePriceChecker />
       </section>
 
-      {/* 6. POPULAR TOURS (Requirement #24, #25 & #36) */}
+      {/* 6. POPULAR TOURS (Requirement #36) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="flex items-end justify-between">
           <div>
@@ -415,7 +380,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
         </div>
       </section>
 
-      {/* 7. AI TRIP PLANNER — REPOSITIONED SECONDARY (Requirement #16, #17, #36) */}
+      {/* 7. AI TRIP PLANNER — REPOSITIONED SECONDARY (Requirement #20, #23 & #36) */}
       <section className="bg-amber-500/10 border border-amber-500/20 rounded-3xl max-w-7xl mx-auto px-6 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           <div className="space-y-3 lg:col-span-2">
@@ -442,7 +407,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
         </div>
       </section>
 
-      {/* 8. BECOME A GUIDE CONVERSION (Requirement #22 & #36) */}
+      {/* 8. BECOME A GUIDE CONVERSION (Requirement #34 & #36) */}
       <section className="bg-gradient-to-r from-emerald-950 via-slate-900 to-amber-950 text-white py-12 px-6 rounded-3xl max-w-7xl mx-auto border border-slate-800">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2">
@@ -463,7 +428,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
         </div>
       </section>
 
-      {/* 9. WHY TRUST STHANIQ (Requirement #20 & #36) */}
+      {/* 9. WHY TRUST STHANIQ (Requirement #32 & #36) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-extrabold text-slate-900">Why Trust STHANIQ?</h2>
@@ -473,7 +438,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">
             <ShieldCheck className="w-8 h-8 text-emerald-600" />
             <h3 className="font-extrabold text-slate-900 text-sm">✓ Verified Locals</h3>
-            <p className="text-xs text-slate-600">Every public guide goes through identity approval.</p>
+            <p className="text-xs text-slate-600">Every public guide goes through an approval process.</p>
           </div>
 
           <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-2">

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { Tag, AlertTriangle, CheckCircle2, Search, ArrowRight, ShieldCheck } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Tag, AlertTriangle, CheckCircle2, Search, ArrowRight, ShieldCheck, Info } from 'lucide-react';
 
 export const InteractivePriceChecker: React.FC = () => {
-  const [service, setService] = useState<'AUTO' | 'GUIDE' | 'CAB'>('AUTO');
+  const [service, setService] = useState<'AUTO' | 'GUIDE' | 'CAB' | 'UNKNOWN'>('AUTO');
   const [from, setFrom] = useState('Jaipur Railway Station');
   const [to, setTo] = useState('Hawa Mahal / Pink City');
   const [quotedPrice, setQuotedPrice] = useState(500);
 
-  const [checked, setChecked] = useState(true);
+  const navigate = useNavigate();
 
   // Range calculation logic based on service
   let minRange = 150;
   let maxRange = 250;
+  let hasReliableData = true;
 
   if (service === 'GUIDE') {
     minRange = 2000;
@@ -19,11 +21,12 @@ export const InteractivePriceChecker: React.FC = () => {
   } else if (service === 'CAB') {
     minRange = 400;
     maxRange = 650;
+  } else if (service === 'UNKNOWN') {
+    hasReliableData = false;
   }
 
   const isOverpriced = quotedPrice > maxRange;
   const isGoodPrice = quotedPrice >= minRange && quotedPrice <= maxRange;
-  const isBargain = quotedPrice < minRange;
 
   return (
     <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-amber-950 text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-700/80 space-y-6">
@@ -46,13 +49,16 @@ export const InteractivePriceChecker: React.FC = () => {
             onChange={(e) => {
               const s = e.target.value as any;
               setService(s);
-              setQuotedPrice(s === 'GUIDE' ? 3500 : s === 'CAB' ? 800 : 500);
+              if (s === 'GUIDE') setQuotedPrice(3500);
+              else if (s === 'CAB') setQuotedPrice(800);
+              else if (s === 'AUTO') setQuotedPrice(500);
             }}
             className="w-full bg-slate-800 border border-slate-700 rounded-xl p-2.5 font-bold text-white focus:outline-none focus:border-amber-500"
           >
             <option value="AUTO">Auto / Taxi Ride</option>
             <option value="GUIDE">Certified Local Guide (6h)</option>
             <option value="CAB">Intercity AC Cab Ride</option>
+            <option value="UNKNOWN">Other Custom Service</option>
           </select>
         </div>
 
@@ -92,7 +98,7 @@ export const InteractivePriceChecker: React.FC = () => {
       </div>
 
       {/* Result Card */}
-      {checked && (
+      {hasReliableData ? (
         <div className="bg-slate-800/90 p-5 rounded-2xl border border-slate-700 space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-700 pb-3">
             <div>
@@ -112,7 +118,7 @@ export const InteractivePriceChecker: React.FC = () => {
             <div className="bg-rose-500/20 border border-rose-500/40 p-3 rounded-xl flex items-center gap-2 text-xs text-rose-300 font-semibold">
               <AlertTriangle className="w-4 h-4 text-rose-400 flex-shrink-0" />
               <span>
-                ⚠️ The quoted ₹{quotedPrice.toLocaleString('en-IN')} is significantly above the estimated local range (₹{minRange}–₹{maxRange}).
+                ⚠️ This quote (₹{quotedPrice.toLocaleString('en-IN')}) appears significantly higher than the estimated local range (₹{minRange}–₹{maxRange}).
               </span>
             </div>
           )}
@@ -125,6 +131,20 @@ export const InteractivePriceChecker: React.FC = () => {
               </span>
             </div>
           )}
+        </div>
+      ) : (
+        /* Sparse Data Warning Fallback (Requirement #17) */
+        <div className="bg-amber-500/10 border border-amber-500/30 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2 text-amber-300">
+            <Info className="w-5 h-5 text-amber-400 flex-shrink-0" />
+            <span>We don't have enough reliable data for a confident estimate. Compare real verified STHANIQ offers instead.</span>
+          </div>
+          <button
+            onClick={() => navigate('/guides')}
+            className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold px-4 py-2 rounded-xl whitespace-nowrap text-xs transition"
+          >
+            Find a Guide
+          </button>
         </div>
       )}
     </div>

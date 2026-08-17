@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { marketplaceStore } from '../services/store';
 import { GuideRequest, TourOffer, Booking } from '../types';
+import { MobileComparisonView } from '../components/MobileComparisonView';
 
 interface RequestComparisonPageProps {
   onOfferAccepted: (booking: Booking) => void;
@@ -96,10 +97,13 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
         </div>
       </div>
 
-      {/* Offer Comparison Matrix Table (Requirement #11) */}
+      {/* Mobile Vertical Comparison Fallback (Requirement #30) */}
+      <MobileComparisonView offers={offers} onAccept={handleAccept} />
+
+      {/* Desktop Comparison Table Matrix (Requirement #13) */}
       {offers.length > 0 && (
-        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-card space-y-4 overflow-x-auto">
-          <h3 className="font-extrabold text-slate-900 text-lg">Side-by-Side Comparison Matrix</h3>
+        <div className="hidden md:block bg-white rounded-3xl p-6 border border-slate-200 shadow-card space-y-4 overflow-x-auto">
+          <h3 className="font-extrabold text-slate-900 text-lg">Side-by-Side Desktop Comparison Matrix</h3>
           <table className="w-full text-xs text-left border-collapse min-w-[600px]">
             <thead>
               <tr className="border-b border-slate-200 text-slate-400 uppercase text-[10px]">
@@ -169,7 +173,7 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
         </div>
       )}
 
-      {/* Offers Cards Grid */}
+      {/* Desktop Cards Grid */}
       {offers.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-3">
           <Clock className="w-10 h-10 text-amber-500 mx-auto animate-spin" />
@@ -179,7 +183,7 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6">
           {offers.map((offer) => (
             <div
               key={offer.id}
@@ -191,7 +195,6 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
                   : 'border-slate-200'
               }`}
             >
-              {/* Badge Overlay */}
               {offer.badgeLabel && (
                 <div
                   className={`absolute -top-3.5 left-1/2 transform -translate-x-1/2 px-4 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider text-white shadow-md ${
