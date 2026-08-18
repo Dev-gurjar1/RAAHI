@@ -116,3 +116,11 @@ html.dark ::-webkit-scrollbar-track {
 html.dark ::-webkit-scrollbar-thumb {
   background: #334155;
 }
+
+.hero-brand-accent {
+  color: #d97706 !important; /* Rich solid orange for high contrast light mode */
+}
+
+html.dark .hero-brand-accent {
+  color: #fbbf24 !important; /* Bright golden orange for high contrast dark mode */
+}

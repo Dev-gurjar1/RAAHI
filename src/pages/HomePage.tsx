@@ -49,9 +49,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onRequestOpen }) => {
         <div className="max-w-7xl mx-auto text-center space-y-8 relative z-10">
 
           {/* Hero Main Heading */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15] block">
             Find Verified Locals.<br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-brand-600 via-amber-500 to-amber-600 bg-clip-text text-transparent">
+            <span className="text-amber-600 dark:text-amber-400 font-extrabold hero-brand-accent">
               Travel at Fair Prices.
             </span>
           </h1>
