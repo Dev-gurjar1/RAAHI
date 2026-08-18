@@ -4,14 +4,13 @@ import {
   ShieldCheck,
   Star,
   CheckCircle2,
-  XCircle,
-  Award,
   Sparkles,
   ArrowRight,
   Clock,
-  MapPin,
-  Tag,
-  Check
+  Check,
+  Trophy,
+  Award,
+  Users
 } from 'lucide-react';
 import { marketplaceStore } from '../services/store';
 import { GuideRequest, TourOffer, Booking } from '../types';
@@ -67,20 +66,38 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-amber-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-3 border border-slate-800">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold">
-          <Sparkles className="w-4 h-4 text-amber-400" /> Transparent Offer Comparison Engine
+      <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-amber-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl space-y-4 border border-slate-800">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold border border-amber-500/30">
+          <Sparkles className="w-4 h-4 text-amber-400" /> Bidding Flow: Tourist Request → Guides Respond → Compare → Book
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold">Guide Bids & Offers for {request.destination}</h1>
-        <p className="text-slate-300 text-xs sm:text-sm max-w-2xl">
-          Compare verified local guide offers side-by-side. Review price, inclusions, rating, and experience before booking.
-        </p>
+        
+        {/* Prominent Bidding Response Highlight (Requirement #2) */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="inline-block bg-emerald-500/20 text-emerald-300 font-extrabold text-xs px-3 py-1 rounded-full border border-emerald-500/30 mb-1">
+              ⚡ LIVE BIDS READY
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
+              {offers.length} Verified Guides Responded
+            </h1>
+            <p className="text-slate-300 text-xs sm:text-sm max-w-2xl leading-relaxed">
+              Review transparent offers for {request.destination} with guaranteed identity verification and escrow payment protection.
+            </p>
+          </div>
+          
+          <button
+            onClick={() => navigate('/guides')}
+            className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold px-5 py-3 rounded-2xl text-xs whitespace-nowrap shadow-lg shadow-amber-500/20"
+          >
+            Post Another Request
+          </button>
+        </div>
 
         {/* Request Summary Bar */}
         <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
           <div>
-            <span className="text-slate-400 block text-[10px] uppercase font-bold">Date & Travelers</span>
-            <span className="font-semibold text-white">{request.date} • {request.travelersCount} Pax</span>
+            <span className="text-slate-400 block text-[10px] uppercase font-bold">Destination & Pax</span>
+            <span className="font-semibold text-white">{request.destination} • {request.travelersCount} Pax</span>
           </div>
           <div>
             <span className="text-slate-400 block text-[10px] uppercase font-bold">Duration</span>
@@ -92,88 +109,100 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
           </div>
           <div>
             <span className="text-slate-400 block text-[10px] uppercase font-bold">Offers Received</span>
-            <span className="font-extrabold text-emerald-400">{offers.length} Bids Submitted</span>
+            <span className="font-extrabold text-emerald-400">{offers.length} Bids Ready</span>
           </div>
         </div>
       </div>
 
-      {/* Mobile Vertical Comparison Fallback (Requirement #30) */}
-      <MobileComparisonView offers={offers} onAccept={handleAccept} />
-
-      {/* Desktop Comparison Table Matrix (Requirement #13) */}
+      {/* Prominent Quick Comparison Table Banner (Desktop & Tablet) */}
       {offers.length > 0 && (
-        <div className="hidden md:block bg-white rounded-3xl p-6 border border-slate-200 shadow-card space-y-4 overflow-x-auto">
-          <h3 className="font-extrabold text-slate-900 text-lg">Side-by-Side Desktop Comparison Matrix</h3>
-          <table className="w-full text-xs text-left border-collapse min-w-[600px]">
-            <thead>
-              <tr className="border-b border-slate-200 text-slate-400 uppercase text-[10px]">
-                <th className="py-3 px-2 font-bold">Feature</th>
-                {offers.map(o => (
-                  <th key={o.id} className="py-3 px-4 font-bold text-slate-900 text-sm">
-                    {o.guideName}
-                  </th>
+        <div className="hidden md:block bg-white rounded-3xl p-6 border-2 border-amber-500/30 shadow-card space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Trophy className="w-5 h-5 text-amber-500" />
+              <h3 className="font-extrabold text-slate-900 text-lg">
+                Verified Guides Response Summary
+              </h3>
+            </div>
+            <span className="text-xs text-slate-500 font-medium">Select a guide to compare full inclusions or book directly</span>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs text-left border-collapse min-w-[650px]">
+              <thead>
+                <tr className="border-b border-slate-200 text-slate-400 uppercase text-[10px]">
+                  <th className="py-3 px-4 font-bold">Guide</th>
+                  <th className="py-3 px-4 font-bold">Offered Price</th>
+                  <th className="py-3 px-4 font-bold">Rating</th>
+                  <th className="py-3 px-4 font-bold">Experience</th>
+                  <th className="py-3 px-4 font-bold">Smart Label</th>
+                  <th className="py-3 px-4 font-bold text-right">Instant Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
+                {offers.map((o) => (
+                  <tr key={o.id} className="hover:bg-slate-50/80 transition">
+                    <td className="py-3.5 px-4">
+                      <div className="flex items-center gap-3">
+                        <img src={o.guideAvatar} alt={o.guideName} className="w-10 h-10 rounded-full object-cover border-2 border-emerald-500/30" />
+                        <div>
+                          <div className="font-extrabold text-slate-900 text-sm flex items-center gap-1">
+                            <span>{o.guideName}</span>
+                            <ShieldCheck className="w-4 h-4 text-emerald-600 inline" />
+                          </div>
+                          <span className="text-[10px] text-slate-400">{o.tourTitle}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-3.5 px-4 text-base font-extrabold text-slate-900">
+                      ₹{o.price.toLocaleString('en-IN')}
+                    </td>
+                    <td className="py-3.5 px-4 text-amber-600 font-bold text-sm whitespace-nowrap">
+                      ⭐ {o.guideRating}
+                    </td>
+                    <td className="py-3.5 px-4 text-slate-700 font-semibold whitespace-nowrap">
+                      {o.guideExperience} yrs
+                    </td>
+                    <td className="py-3.5 px-4">
+                      {o.badgeLabel ? (
+                        <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-extrabold uppercase text-white shadow-xs ${
+                          o.badgeLabel === 'Best Match' ? 'bg-amber-500' :
+                          o.badgeLabel === 'Best Value' ? 'bg-emerald-600' :
+                          o.badgeLabel === 'Most Experienced' ? 'bg-indigo-600' : 'bg-slate-800'
+                        }`}>
+                          {o.badgeLabel === 'Best Match' ? '🏆 Best Match' :
+                           o.badgeLabel === 'Best Value' ? '💰 Best Value' :
+                           o.badgeLabel === 'Most Experienced' ? '⭐ Most Experienced' : o.badgeLabel}
+                        </span>
+                      ) : (
+                        <span className="text-slate-400 text-xs">—</span>
+                      )}
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      <button
+                        onClick={() => handleAccept(o.id)}
+                        className={`font-extrabold px-4 py-2 rounded-xl text-xs transition shadow-sm inline-flex items-center gap-1.5 ${
+                          o.badgeLabel === 'Best Match'
+                            ? 'bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-amber-500/20'
+                            : 'bg-slate-900 hover:bg-slate-800 text-white'
+                        }`}
+                      >
+                        <span>Book ₹{o.price.toLocaleString('en-IN')}</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </td>
+                  </tr>
                 ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
-              <tr>
-                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Offered Price</td>
-                {offers.map(o => (
-                  <td key={o.id} className="py-3 px-4 font-extrabold text-slate-900 text-sm">
-                    ₹{o.price.toLocaleString('en-IN')}
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Rating</td>
-                {offers.map(o => (
-                  <td key={o.id} className="py-3 px-4 text-amber-600 font-bold">
-                    ⭐ {o.guideRating}
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Experience</td>
-                {offers.map(o => (
-                  <td key={o.id} className="py-3 px-4">{o.guideExperience} yrs</td>
-                ))}
-              </tr>
-              <tr>
-                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Duration</td>
-                {offers.map(o => (
-                  <td key={o.id} className="py-3 px-4">{o.durationHours} hrs</td>
-                ))}
-              </tr>
-              <tr>
-                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Heritage Access</td>
-                {offers.map(o => (
-                  <td key={o.id} className="py-3 px-4 text-emerald-600 font-bold">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Food Tasting</td>
-                {offers.map(o => (
-                  <td key={o.id} className="py-3 px-4 text-emerald-600 font-bold">
-                    {o.includedServices.some(s => s.toLowerCase().includes('food')) ? <Check className="w-4 h-4 text-emerald-600" /> : '—'}
-                  </td>
-                ))}
-              </tr>
-              <tr>
-                <td className="py-3 px-2 text-slate-400 font-bold uppercase text-[10px]">Verified Identity</td>
-                {offers.map(o => (
-                  <td key={o.id} className="py-3 px-4 text-emerald-600 font-bold">
-                    <ShieldCheck className="w-4 h-4 text-emerald-600 inline" /> Verified
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
-      {/* Desktop Cards Grid */}
+      {/* Mobile View Component */}
+      <MobileComparisonView offers={offers} onAccept={handleAccept} />
+
+      {/* Full Detailed Desktop Cards Grid */}
       {offers.length === 0 ? (
         <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-3">
           <Clock className="w-10 h-10 text-amber-500 mx-auto animate-spin" />
@@ -183,7 +212,7 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
           </p>
         </div>
       ) : (
-        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
           {offers.map((offer) => (
             <div
               key={offer.id}
@@ -200,12 +229,16 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
                   className={`absolute -top-3.5 left-1/2 transform -translate-x-1/2 px-4 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider text-white shadow-md ${
                     offer.badgeLabel === 'Best Match'
                       ? 'bg-amber-500'
-                      : offer.badgeLabel === 'Lowest Price'
+                      : offer.badgeLabel === 'Best Value'
+                      ? 'bg-emerald-600'
+                      : offer.badgeLabel === 'Most Experienced'
                       ? 'bg-indigo-600'
-                      : 'bg-emerald-600'
+                      : 'bg-slate-800'
                   }`}
                 >
-                  {offer.badgeLabel}
+                  {offer.badgeLabel === 'Best Match' ? '🏆 Best Match' :
+                   offer.badgeLabel === 'Best Value' ? '💰 Best Value' :
+                   offer.badgeLabel === 'Most Experienced' ? '⭐ Most Experienced' : offer.badgeLabel}
                 </div>
               )}
 
@@ -234,8 +267,8 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
                 </div>
 
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Guide Note</span>
-                  <p className="text-xs text-slate-700 italic bg-amber-50/60 p-3 rounded-xl border border-amber-200/50">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Guide Pitch</span>
+                  <p className="text-xs text-slate-700 italic bg-amber-50/60 p-3 rounded-xl border border-amber-200/50 leading-relaxed">
                     "{offer.pitch}"
                   </p>
                 </div>
@@ -257,7 +290,7 @@ export const RequestComparisonPage: React.FC<RequestComparisonPageProps> = ({ on
                 onClick={() => handleAccept(offer.id)}
                 className={`w-full font-extrabold py-3.5 rounded-2xl text-sm shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 ${
                   offer.badgeLabel === 'Best Match'
-                    ? 'bg-gradient-to-r from-brand-600 to-amber-500 hover:from-brand-700 hover:to-amber-600 text-white shadow-amber-500/25'
+                    ? 'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 shadow-amber-500/25'
                     : 'bg-slate-900 hover:bg-slate-800 text-white'
                 }`}
               >

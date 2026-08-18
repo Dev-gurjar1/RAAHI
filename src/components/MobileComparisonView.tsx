@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Star, CheckCircle2, ArrowRight, Award } from 'lucide-react';
+import { ShieldCheck, Star, CheckCircle2, ArrowRight, Trophy, Tag, Award } from 'lucide-react';
 import { TourOffer } from '../types';
 
 interface MobileComparisonViewProps {
@@ -10,25 +10,97 @@ interface MobileComparisonViewProps {
 export const MobileComparisonView: React.FC<MobileComparisonViewProps> = ({ offers, onAccept }) => {
   return (
     <div className="space-y-6 md:hidden">
-      <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-        Mobile Vertical Offer Comparison ({offers.length} Bids)
+      {/* Prominent Banner Header */}
+      <div className="bg-slate-900 text-white p-5 rounded-3xl border border-slate-800 space-y-3">
+        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[11px] font-extrabold">
+          <ShieldCheck className="w-3.5 h-3.5" /> Bidding Active
+        </div>
+        <h3 className="text-xl font-extrabold text-white">
+          {offers.length} Verified Guides Responded
+        </h3>
+        <p className="text-xs text-slate-300">
+          Compare guide price, rating, experience, and badge labels.
+        </p>
       </div>
 
+      {/* Quick Mobile Comparison Summary Table */}
+      <div className="bg-white rounded-3xl p-4 border border-slate-200 shadow-sm space-y-3 overflow-x-auto">
+        <div className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+          <Trophy className="w-4 h-4 text-amber-500" /> Guide Comparison Quick Summary
+        </div>
+
+        <table className="w-full text-xs text-left border-collapse min-w-[320px]">
+          <thead>
+            <tr className="border-b border-slate-200 text-slate-400 uppercase text-[10px]">
+              <th className="py-2 px-2 font-bold">Guide</th>
+              <th className="py-2 px-2 font-bold">Price</th>
+              <th className="py-2 px-2 font-bold">Rating</th>
+              <th className="py-2 px-2 font-bold">Exp</th>
+              <th className="py-2 px-2 font-bold text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100 font-semibold text-slate-700">
+            {offers.map((o) => (
+              <tr key={o.id} className="hover:bg-slate-50/80">
+                <td className="py-2.5 px-2">
+                  <div className="font-extrabold text-slate-900 flex items-center gap-1">
+                    <span>{o.guideName}</span>
+                  </div>
+                  {o.badgeLabel && (
+                    <span className={`inline-block text-[9px] font-extrabold px-1.5 py-0.5 rounded text-white mt-0.5 ${
+                      o.badgeLabel === 'Best Match' ? 'bg-amber-500' :
+                      o.badgeLabel === 'Best Value' ? 'bg-emerald-600' :
+                      o.badgeLabel === 'Most Experienced' ? 'bg-indigo-600' : 'bg-slate-700'
+                    }`}>
+                      {o.badgeLabel === 'Best Match' ? '🏆 Best Match' :
+                       o.badgeLabel === 'Best Value' ? '💰 Best Value' :
+                       o.badgeLabel === 'Most Experienced' ? '⭐ Most Experienced' : o.badgeLabel}
+                    </span>
+                  )}
+                </td>
+                <td className="py-2.5 px-2 font-extrabold text-slate-900">
+                  ₹{o.price.toLocaleString('en-IN')}
+                </td>
+                <td className="py-2.5 px-2 text-amber-600 font-extrabold whitespace-nowrap">
+                  ⭐ {o.guideRating}
+                </td>
+                <td className="py-2.5 px-2 text-slate-600 font-medium whitespace-nowrap">
+                  {o.guideExperience} yrs
+                </td>
+                <td className="py-2.5 px-2 text-right">
+                  <button
+                    onClick={() => onAccept(o.id)}
+                    className="bg-slate-900 hover:bg-slate-800 text-white font-extrabold px-3 py-1.5 rounded-lg text-[11px] transition shadow-xs whitespace-nowrap"
+                  >
+                    Book
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Vertical Offer Cards */}
       {offers.map((offer) => (
         <div
           key={offer.id}
           className={`bg-white rounded-3xl border-2 p-5 space-y-4 shadow-card relative ${
-            offer.badgeLabel === 'Best Match' ? 'border-amber-500 ring-2 ring-amber-500/20' : 'border-slate-200'
+            offer.badgeLabel === 'Best Match' ? 'border-amber-500 ring-2 ring-amber-500/20' :
+            offer.badgeLabel === 'Best Value' ? 'border-emerald-500' : 'border-slate-200'
           }`}
         >
           {offer.badgeLabel && (
             <span
-              className={`inline-block px-3 py-1 rounded-full text-[10px] font-extrabold uppercase text-white shadow-sm mb-2 ${
+              className={`inline-block px-3 py-1 rounded-full text-[10px] font-extrabold uppercase text-white shadow-sm mb-1 ${
                 offer.badgeLabel === 'Best Match' ? 'bg-amber-500' :
-                offer.badgeLabel === 'Lowest Price' ? 'bg-indigo-600' : 'bg-emerald-600'
+                offer.badgeLabel === 'Best Value' ? 'bg-emerald-600' :
+                offer.badgeLabel === 'Most Experienced' ? 'bg-indigo-600' : 'bg-slate-800'
               }`}
             >
-              {offer.badgeLabel}
+              {offer.badgeLabel === 'Best Match' ? '🏆 Best Match' :
+               offer.badgeLabel === 'Best Value' ? '💰 Best Value' :
+               offer.badgeLabel === 'Most Experienced' ? '⭐ Most Experienced' : offer.badgeLabel}
             </span>
           )}
 
@@ -37,7 +109,7 @@ export const MobileComparisonView: React.FC<MobileComparisonViewProps> = ({ offe
             <div>
               <h4 className="font-extrabold text-slate-900 text-base">{offer.guideName}</h4>
               <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md inline-flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3" /> Verified Host
+                <ShieldCheck className="w-3 h-3" /> Identity Checked
               </span>
               <div className="flex items-center gap-1 text-xs text-amber-500 font-extrabold mt-0.5">
                 <Star className="w-3.5 h-3.5 fill-amber-500" />
@@ -52,6 +124,10 @@ export const MobileComparisonView: React.FC<MobileComparisonViewProps> = ({ offe
             <span className="text-xl font-extrabold text-slate-900">₹{offer.price.toLocaleString('en-IN')}</span>
           </div>
 
+          <p className="text-xs text-slate-700 italic bg-amber-50/50 p-3 rounded-xl border border-amber-200/50">
+            "{offer.pitch}"
+          </p>
+
           <div className="space-y-1 text-xs text-slate-700">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Inclusions</span>
             {offer.includedServices.map((inc, idx) => (
@@ -64,9 +140,9 @@ export const MobileComparisonView: React.FC<MobileComparisonViewProps> = ({ offe
 
           <button
             onClick={() => onAccept(offer.id)}
-            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3 rounded-xl text-xs transition flex items-center justify-center gap-2"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-extrabold py-3.5 rounded-xl text-xs transition flex items-center justify-center gap-2 active:scale-95 shadow-md"
           >
-            <span>Accept & Book ₹{offer.price}</span>
+            <span>Accept & Book ₹{offer.price.toLocaleString('en-IN')}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

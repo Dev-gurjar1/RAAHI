@@ -154,7 +154,7 @@ export interface TourOffer {
   tourTitle: string;
   pitch: string;
   highlights: string[];
-  badgeLabel?: 'Best Match' | 'Best Value' | 'Lowest Price';
+  badgeLabel?: 'Best Match' | 'Best Value' | 'Most Experienced' | 'Lowest Price';
   cancellationPolicy: string;
   status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
   createdAt: string;

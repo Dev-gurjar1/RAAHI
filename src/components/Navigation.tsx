@@ -14,8 +14,8 @@ import {
   ChevronDown,
   UserCheck,
   Briefcase,
-  HelpCircle,
-  User
+  Sun,
+  Moon
 } from 'lucide-react';
 import { marketplaceStore } from '../services/store';
 import { UserRole } from '../types';
@@ -30,6 +30,13 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
   const [showNotifMenu, setShowNotifMenu] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Dark Mode State with LocalStorage persistence & system default detection
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
+    const saved = localStorage.getItem('sthaniq-theme');
+    if (saved) return saved === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,6 +46,21 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
     });
     return unsubscribe;
   }, []);
+
+  // Sync dark mode class with html element
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('sthaniq-theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('sthaniq-theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(prev => !prev);
+  };
 
   const handleRoleChange = (role: UserRole) => {
     marketplaceStore.setRole(role);
@@ -61,18 +83,41 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
 
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-slate-200/80 shadow-sm transition-all">
-      {/* Top Demo Bar / Quick Role Switcher */}
+      {/* Top Demo Bar / Quick Role Switcher & Upper Right Dark Mode Toggle */}
       <div className="bg-slate-900 text-slate-200 text-xs py-1.5 px-4 sm:px-8 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span className="font-medium text-slate-300">STHANIQ — Verified Locals. Fair Prices. Better Journeys.</span>
+          <span className="font-medium text-slate-300 text-[11px] sm:text-xs">
+            STHANIQ — Verified Locals. Fair Prices. Better Journeys.
+          </span>
         </div>
+
         <div className="flex items-center gap-3">
-          <span className="text-slate-400 hidden sm:inline">Role Context:</span>
+          {/* Upper Right Corner Dark Mode Toggle Button */}
+          <button
+            onClick={toggleDarkMode}
+            className="flex items-center gap-1 bg-slate-800 hover:bg-slate-700 text-slate-200 px-2 py-1 rounded-md border border-slate-700 font-semibold transition text-[11px]"
+            title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            aria-label="Toggle Dark Mode"
+          >
+            {isDarkMode ? (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-400 fill-amber-400/30" />
+                <span className="text-amber-300 font-bold">Light</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-3.5 h-3.5 text-indigo-400" />
+                <span className="text-indigo-300 font-bold">Dark</span>
+              </>
+            )}
+          </button>
+
+          <span className="text-slate-400 hidden sm:inline text-[11px]">Role:</span>
           <div className="relative">
             <button
               onClick={() => setShowRoleDropdown(!showRoleDropdown)}
-              className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-white px-2.5 py-1 rounded-md border border-slate-700 font-semibold transition"
+              className="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 text-white px-2.5 py-1 rounded-md border border-slate-700 font-semibold transition text-[11px]"
             >
               <span className={`w-2 h-2 rounded-full ${
                 storeState.activeRole === 'TOURIST' ? 'bg-amber-400' :
@@ -136,7 +181,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
             </div>
             <div>
               <span className="text-xl font-extrabold tracking-tight text-slate-900 font-sans">
-                STHANIQ<span className="text-brand-500">.</span>
+                STHANIQ<span className="text-amber-500">.</span>
               </span>
               <span className="hidden md:block text-[10px] uppercase font-extrabold text-slate-500 tracking-wider">
                 Verified Locals • Fair Prices
@@ -144,7 +189,7 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
             </div>
           </Link>
 
-          {/* Desktop Nav Links (Restructured Information Architecture) */}
+          {/* Desktop Nav Links */}
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
             <Link
               to="/guides"
@@ -209,6 +254,20 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
 
           {/* Right Action Buttons */}
           <div className="hidden md:flex items-center space-x-3">
+            {/* Desktop Navbar Dark Mode Icon Toggle */}
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition"
+              aria-label="Toggle Dark Mode"
+              title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {isDarkMode ? (
+                <Sun className="w-5 h-5 text-amber-400 fill-amber-400/20" />
+              ) : (
+                <Moon className="w-5 h-5 text-slate-700" />
+              )}
+            </button>
+
             {/* Notification Bell */}
             <div className="relative">
               <button
@@ -257,8 +316,16 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button + Dark mode toggle */}
           <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={toggleDarkMode}
+              className="p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
+              title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {isDarkMode ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-slate-700" />}
+            </button>
+
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
@@ -272,6 +339,26 @@ export const Navigation: React.FC<NavigationProps> = ({ onRequestOpen }) => {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-2 shadow-lg">
+          <div className="flex justify-between items-center px-3 py-2 border-b border-slate-100">
+            <span className="text-xs font-bold text-slate-500 uppercase">Theme Mode</span>
+            <button
+              onClick={toggleDarkMode}
+              className="flex items-center gap-1.5 bg-slate-100 text-slate-800 font-bold px-3 py-1 rounded-lg text-xs"
+            >
+              {isDarkMode ? (
+                <>
+                  <Sun className="w-4 h-4 text-amber-500" />
+                  <span>Light Mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-4 h-4 text-indigo-600" />
+                  <span>Dark Mode</span>
+                </>
+              )}
+            </button>
+          </div>
+
           <Link
             to="/guides"
             onClick={() => setMobileMenuOpen(false)}
