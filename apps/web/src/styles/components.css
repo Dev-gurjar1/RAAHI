@@ -1,0 +1,161 @@
+/* Reusable Component Classes */
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--raahi-orange);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background-color: var(--raahi-deep-orange);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
+}
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background-color: #F1F5F9;
+  color: #1E293B;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  border: 1px solid #E2E8F0;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  background-color: #E2E8F0;
+  color: #0F172A;
+}
+.dark .btn-secondary {
+  background-color: #334155;
+  color: #F8FAFC;
+  border-color: #475569;
+}
+.dark .btn-secondary:hover {
+  background-color: #475569;
+}
+
+.btn-success {
+  background-color: var(--raahi-green);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+  cursor: pointer;
+}
+.btn-success:hover {
+  background-color: var(--raahi-green-dark);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--raahi-text-secondary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--raahi-radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-ghost:hover {
+  color: var(--raahi-orange);
+  background-color: rgba(249, 115, 22, 0.08);
+}
+
+/* Form Controls */
+.input-base {
+  background-color: #FFFFFF;
+  border: 1px solid var(--raahi-border);
+  border-radius: var(--raahi-radius-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--raahi-text);
+  width: 100%;
+  transition: all 0.2s ease;
+}
+.input-base:focus {
+  outline: none;
+  border-color: var(--raahi-orange);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+.dark .input-base {
+  background-color: #1E293B;
+  border-color: #334155;
+  color: #F8FAFC;
+}
+
+/* Card Surfaces */
+.card-canvas {
+  background-color: var(--raahi-surface);
+  border-radius: var(--raahi-radius-canvas);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: var(--raahi-shadow);
+}
+.dark .card-canvas {
+  background-color: var(--raahi-bg);
+  border-color: #334155;
+}
+
+.card-guide {
+  background-color: #FFFFFF;
+  border-radius: var(--raahi-radius-lg);
+  border: 1px solid #F1F5F9;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.card-guide:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--raahi-shadow-floating);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+.dark .card-guide {
+  background-color: #1E293B;
+  border-color: #334155;
+}
+
+/* Badges */
+.badge-verified {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.dark .badge-verified {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+}

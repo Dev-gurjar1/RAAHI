@@ -1,0 +1,1 @@
+{"version":3,"file":"fare-engine.d.ts","sourceRoot":"","sources":["fare-engine.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,iBAAiB,EAAE,MAAM,qBAAqB,CAAC;AAExE,qBAAa,iBAAiB;WACd,aAAa,CAAC,KAAK,EAAE,cAAc,GAAG,iBAAiB;CAgEtE"}
