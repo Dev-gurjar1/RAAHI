@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { JAIPUR_GUIDES_DATA } from '../constants/guides';
 import { calculateDistance } from '../utils/geo';
 import { useBookingStore } from '../store/useBookingStore';
@@ -128,9 +129,9 @@ export const GuidesPage: React.FC = () => {
                   )}
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 dark:text-white text-base font-heading group-hover:text-orange-500 transition">
+                  <NavLink to={`/guides/${g.id}`} className="font-bold text-slate-900 dark:text-white text-base font-heading hover:text-orange-500 transition block">
                     {g.name}
-                  </h3>
+                  </NavLink>
                   <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5">
                     <span className="text-amber-500 font-bold">★ {g.rating}</span>
                     <span>({g.reviewCount} reviews)</span>
@@ -159,17 +160,25 @@ export const GuidesPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="pt-3.5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
+            <div className="pt-3.5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-2">
               <div>
                 <span className="text-[10px] text-slate-400 uppercase font-semibold block">Hourly Tariff</span>
                 <span className="text-lg font-extrabold text-orange-600 dark:text-orange-400">₹{g.hourlyRate}</span>
               </div>
-              <button
-                onClick={() => openBookingModal(g as GuideProfile)}
-                className="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-full text-xs transition shadow-md shadow-orange-500/20"
-              >
-                Book Guide
-              </button>
+              <div className="flex items-center gap-2">
+                <NavLink
+                  to={`/guides/${g.id}`}
+                  className="px-3.5 py-2.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-700 dark:text-slate-200 font-bold rounded-full text-xs transition"
+                >
+                  Profile
+                </NavLink>
+                <button
+                  onClick={() => openBookingModal(g as GuideProfile)}
+                  className="px-4 py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-full text-xs transition shadow-md shadow-orange-500/20"
+                >
+                  Book Guide
+                </button>
+              </div>
             </div>
           </div>
         ))}

@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useToastStore } from '../../store/useToastStore';
 import { OTPInput } from '../inputs/OTPInput';
+import { RaahiLogo } from '../RaahiLogo';
 import { UserRole } from '@raahi/shared-types';
 
 export const AuthModal: React.FC = () => {
@@ -76,7 +77,8 @@ export const AuthModal: React.FC = () => {
         {/* Stage 1: Phone / Google */}
         {stage === 1 && (
           <div className="space-y-6 text-left">
-            <div className="space-y-1.5 text-center">
+            <div className="space-y-1.5 text-center flex flex-col items-center">
+              <RaahiLogo variant="compact" size={38} className="mb-2" />
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white font-heading">Welcome to RAAHI</h2>
               <p className="text-slate-500 dark:text-slate-400 text-xs">Enter your mobile phone number to receive a demo OTP.</p>
             </div>
