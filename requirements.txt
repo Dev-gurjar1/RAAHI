@@ -1,0 +1,80 @@
+# ==============================================================================
+# RAAHI (MERN Stack Platform) - Project Requirements & Dependencies
+# Repository: Dev-gurjar1/RAAHI
+# Architecture: React 18 + Node.js/Express + MongoDB + Socket.IO + Vite
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. RUNTIME & SYSTEM PREREQUISITES
+# ------------------------------------------------------------------------------
+# Node.js >= 18.0.0 (LTS recommended)
+# npm >= 9.0.0
+# MongoDB >= 6.0 (Local Community Server or MongoDB Atlas cluster)
+
+# ------------------------------------------------------------------------------
+# 2. ROOT WORKSPACE DEPENDENCIES
+# ------------------------------------------------------------------------------
+concurrently==8.2.2
+
+# ------------------------------------------------------------------------------
+# 3. BACKEND SERVER DEPENDENCIES (raahi-server / Node.js + Express)
+# ------------------------------------------------------------------------------
+express==4.19.2
+mongoose==8.3.2
+socket.io==4.7.5
+bcryptjs==2.4.3
+jsonwebtoken==9.0.2
+cors==2.8.5
+dotenv==16.4.5
+
+# Backend Dev Dependencies
+nodemon==3.1.0
+
+# ------------------------------------------------------------------------------
+# 4. FRONTEND CLIENT DEPENDENCIES (raahi-client / React 18 + Vite)
+# ------------------------------------------------------------------------------
+react==18.2.0
+react-dom==18.2.0
+react-router-dom==6.22.3
+leaflet==1.9.4
+socket.io-client==4.7.5
+zustand==4.5.2
+axios==1.6.8
+lucide-react==0.368.0
+clsx==2.1.0
+tailwind-merge==2.2.2
+
+# Frontend Dev Dependencies & Build Tools
+vite==5.2.0
+@vitejs/plugin-react==4.2.1
+tailwindcss==3.4.3
+postcss==8.4.38
+autoprefixer==10.4.19
+
+# ------------------------------------------------------------------------------
+# 5. ENVIRONMENT VARIABLES SETUP (.env)
+# ------------------------------------------------------------------------------
+# Backend (.env or server/.env):
+#   PORT=5000
+#   MONGODB_URI=mongodb://localhost:27017/raahi
+#   JWT_SECRET=your_jwt_secret_key
+#   CLIENT_URL=http://localhost:5173
+#
+# Frontend (client/.env):
+#   VITE_API_URL=http://localhost:5000/api
+#   VITE_SOCKET_URL=http://localhost:5000
+
+# ------------------------------------------------------------------------------
+# 6. QUICK START COMMANDS
+# ------------------------------------------------------------------------------
+# Install all dependencies across root, server, and client:
+#   npm run install:all
+#
+# Start development servers concurrently (Client on :5173, Server on :5000):
+#   npm run dev
+#
+# Build client for production:
+#   npm run build
+#
+# Start production backend server:
+#   npm run start
