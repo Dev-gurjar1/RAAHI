@@ -1,22 +1,17 @@
 {
-  "name": "raahi-monorepo",
-  "version": "2.0.0",
+  "name": "raahi",
+  "version": "1.0.0",
   "private": true,
-  "description": "RAAHI — Verified Locals • Fair Prices • Zero Worries (Production-Grade Monorepo)",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "description": "RAAHI — Verified Locals • Fair Prices • Zero Worries (MERN Stack)",
   "scripts": {
-    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
-    "dev:web": "npm --prefix apps/web run dev",
-    "dev:api": "npm --prefix apps/api run dev",
-    "build": "npm --prefix packages/shared-types run build && npm --prefix apps/api run build && npm --prefix apps/web run build",
-    "test": "npm --prefix apps/api test && npm --prefix apps/web test",
-    "lint": "npm --prefix apps/web run lint && npm --prefix apps/api run lint"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "client": "npm --prefix client run dev",
+    "server": "npm --prefix server run dev",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server run start",
+    "install:all": "npm install && npm --prefix client install && npm --prefix server install"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
-    "typescript": "^5.3.3"
+    "concurrently": "^8.2.2"
   }
 }

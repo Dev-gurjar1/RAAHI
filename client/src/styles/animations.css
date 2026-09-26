@@ -1,0 +1,139 @@
+/* ══════════════════════════════════════════
+   STHANIQ — Animation Library
+   ══════════════════════════════════════════ */
+
+/* ── Float: subtle levitation ── */
+@keyframes st-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+.animate-float {
+  animation: st-float 4.5s ease-in-out infinite;
+}
+.animate-float-delayed {
+  animation: st-float 5.5s ease-in-out 1.2s infinite;
+}
+.animate-float-slow {
+  animation: st-float 6.5s ease-in-out 0.6s infinite;
+}
+
+/* ── Pulse ring: online indicator ── */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(11, 155, 110, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(11, 155, 110, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(11, 155, 110, 0);
+  }
+}
+.pulse-green {
+  animation: pulse-ring 2s infinite;
+}
+
+/* ── Fade slide up ── */
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-slide-up {
+  animation: fade-slide-up 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+/* ── Fade in ── */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease forwards;
+}
+
+/* ── Scale in ── */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-scale-in {
+  animation: scale-in 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+/* ── Shimmer skeleton ── */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--st-bg-muted) 0%,
+    var(--st-border) 50%,
+    var(--st-bg-muted) 100%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.8s infinite linear;
+  border-radius: var(--st-radius-sm);
+}
+
+/* ── Slow spin ── */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+/* ── Stagger children (use with JS delay) ── */
+.stagger-children > * {
+  animation: fade-slide-up 0.4s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 60ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 120ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 180ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 300ms; }
+
+/* ── Micro hover scale ── */
+.hover-lift {
+  transition: transform var(--st-transition), box-shadow var(--st-transition);
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--st-shadow-lg);
+}
+
+/* ── Image zoom on hover ── */
+.img-zoom {
+  overflow: hidden;
+}
+.img-zoom img {
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.img-zoom:hover img {
+  transform: scale(1.06);
+}
+
+/* ── Focus ring ── */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--st-primary);
+  outline-offset: 3px;
+}

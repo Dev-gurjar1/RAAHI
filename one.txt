@@ -1,0 +1,70 @@
+================================================================================
+                    RAAHI PROJECT - COMPLETE SUMMARY & FEATURES
+================================================================================
+
+--------------------------------------------------------------------------------
+1. WHAT IS NODE.JS & HOW IT IS USED IN THIS PROJECT
+--------------------------------------------------------------------------------
+Node.js is an open-source, cross-platform JavaScript runtime environment that 
+allows developers to run JavaScript code outside of a web browser (on the server).
+
+In the RAAHI project:
+- Node.js acts as the backend server runtime environment inside `apps/api`.
+- It executes the Node.js / Express REST API endpoints and Socket.IO server.
+- It handles real-time socket connection management, booking state machine logic, 
+  OTP authentication simulation, fare calculation algorithms, and scam report logging.
+- It powers npm package management and workspace building scripts (`npm run dev`, `npm run build`).
+
+--------------------------------------------------------------------------------
+2. PROJECT ARCHITECTURE OVERVIEW
+--------------------------------------------------------------------------------
+- Architecture: Monorepo with NPM Workspaces (`apps/*`, `packages/*`).
+- Frontend (`apps/web`): React 18, Vite, TypeScript, Tailwind CSS, Zustand, Leaflet Maps.
+- Backend (`apps/api`): Node.js, Express, Socket.IO, TypeScript.
+- Shared Layer (`packages/shared-types`): Shared DTOs, TypeScript interfaces, and Socket events.
+- UI Design System: Saffron (#F59E0B), Emerald (#10B981), Warm Off-White (#FFFBEB).
+
+--------------------------------------------------------------------------------
+3. COMPLETE LIST OF FEATURES IN RAAHI
+--------------------------------------------------------------------------------
+
+[1] LEAFLET LIVE PROXIMITY RADAR MAP
+- Interactive map powered by Leaflet 1.9.4 displaying active verified local guides near Jaipur landmarks.
+- Animated radar pulse markers, live proximity calculation, and interactive guide cards.
+
+[2] FAIR PRICE SHIELD & ANTI-SCAM TARIFF ENGINE
+- Fare calculator for Auto Rickshaw, E-Rickshaw, and Local Guides based on distance, waiting time, and night rates.
+- Overcharge detector comparing user asking prices against government benchmark rates.
+- Bilingual (English / Hindi) fare rate cards and instant scam report filing.
+
+[3] UBER-STYLE LOCAL GUIDE BOOKING ENGINE
+- Real-time guide matching system with Socket.IO gateway integration.
+- 12-state state machine: SEARCHING -> MATCHED -> ARRIVED -> OTP_PENDING -> TRIP_STARTED -> TRIP_COMPLETED.
+- 4-Digit Start-Tour OTP protection to ensure safety before beginning a trip.
+
+[4] VERIFIED LOCAL GUIDES DIRECTORY & SEARCH
+- Explore verified local guides filtered by heritage expertise, spoken languages, rating, and radius.
+- Detailed guide profile view showcasing badges, reviews, tour packages, and direct booking options.
+
+[5] TOUR PACKAGE EXPLORER & CREATOR
+- Explore curated heritage tour packages (e.g. Amer Fort Underground Passage, Pink City Heritage Walk).
+- Tour Creator Tool allowing registered guides to draft, price, and publish new custom tour packages.
+
+[6] AI-ASSISTED TRAVEL ITINERARY PLANNER
+- Multi-day travel planner tailored for Jaipur (1-Day, 2-Day, or 3-Day custom plans).
+- Itemized budget estimator calculating guide fees, monument entrance tickets, and transport costs.
+
+[7] LOCAL GUIDE DASHBOARD
+- Specialized portal for local guides featuring Online/Offline status toggle.
+- 15-second incoming booking request countdown modal with Accept/Decline actions.
+- Earnings breakdown, active trip status, and KYC verification center tracking.
+
+[8] SAFETY CENTER & SOS EMERGENCY PANIC BUTTON
+- Dedicated Tourist Anti-Scam & Safety Center with quick-dial buttons for Tourist Helpline (1364) and Police (112).
+- One-click SOS Panic Trigger dispatching safety alerts.
+
+[9] SIMULATED PHONE + OTP AUTHENTICATION
+- Role-based authentication (Tourist / Local Guide).
+- SMS OTP sending and verification simulation with instant demo OTP fallback (`123456`).
+
+================================================================================
